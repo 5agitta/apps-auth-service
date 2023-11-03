@@ -4,6 +4,18 @@ spring:
     username: dev@sagitta
     password: password@sagitta
 
+  data:
+    redis:
+      port: 6379
+      password: password@sagitta
+      timeout: 600ms
+
+  cache:
+    type: redis
+    redis:
+      cache-null-values: false
+      time-to-live: 300000
+
 #management:
 #  zipkin:
 #    tracing:

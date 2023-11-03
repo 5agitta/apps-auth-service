@@ -1,20 +1,17 @@
 package com.sagitta.authservice.authentication.service;
 
+import com.sagitta.authservice.authentication.domain.AccessToken;
+import com.sagitta.authservice.authentication.domain.AccessTokenRepository;
 import com.sagitta.authservice.authentication.domain.Account;
 import com.sagitta.authservice.authentication.domain.AccountRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.security.Key;
-import java.security.KeyPair;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 
@@ -27,9 +24,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AccountRepository accountRepository;
 
-    public AuthenticationServiceImpl(PasswordEncoder passwordEncoder, AccountRepository accountRepository) {
+    private final AccessTokenRepository accessTokenRepository;
+
+    public AuthenticationServiceImpl(PasswordEncoder passwordEncoder, AccountRepository accountRepository, AccessTokenRepository accessTokenRepository) {
         this.passwordEncoder = passwordEncoder;
         this.accountRepository = accountRepository;
+        this.accessTokenRepository = accessTokenRepository;
     }
 
 
@@ -49,6 +49,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String token = Jwts.builder().setSubject(etin).signWith(key).compact();
             account.setAccessToken(token);
             accountRepository.save(account);
+            AccessToken accessToken = AccessToken.builder()
+                    .accessToken(token)
+                    .isActive(true)
+                    .build();
+            accessTokenRepository.save(accessToken);
             return token;
         }
         return "Login failed";
@@ -69,7 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // Hash the user's password before storing it in the database
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
         accountRepository.save(user);
-        return "User created successfully";
+        return this.login(etin, password);
     }
 
     public String logout(String etin, String accessToken) {
