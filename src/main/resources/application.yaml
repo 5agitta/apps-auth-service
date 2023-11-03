@@ -23,7 +23,7 @@ spring:
     type: redis
     redis:
       cache-null-values: false
-      time-to-live: 1h
+      time-to-live: 60
 
 springdoc:
   show-actuator: true
