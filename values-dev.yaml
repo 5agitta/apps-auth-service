@@ -2,7 +2,7 @@ config:
   SERVER_PORT: "8083"
   SPRING_PROFILES_ACTIVE: "prod"
   ZIPKIN_URL: "http://tempo-grafana-tempo-distributor.tempo.svc.cluster.local:9411"
-  LOKI_DISTRIBUTOR_URL: "http://loki-grafana-loki-distributor.loki.svc.cluster.local:3100/loki/api/v1/push"
+  LOKI_DISTRIBUTOR_URL: "http://loki-headless.dev:3100/loki/api/v1/push"
 
 replicaCount: 1
 
