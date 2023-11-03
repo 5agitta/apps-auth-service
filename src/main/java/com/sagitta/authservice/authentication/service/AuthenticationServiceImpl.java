@@ -8,6 +8,7 @@ import com.sagitta.authservice.authentication.domain.AccountRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,14 +35,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public String login(String etin, String password) {
+    public ResponseEntity<String> login(String etin, String password) {
         Optional<Account> optionalAccount = accountRepository.findByEtin(etin);
         if (optionalAccount.isEmpty()) {
-            return "User not found";
+            return ResponseEntity.badRequest().body("User not found");
         }
         Account account = optionalAccount.get();
         if (!passwordEncoder.matches(password, account.getPassword())) {
-            return "Incorrect password";
+            return ResponseEntity.badRequest().body("Incorrect password");
         }
         if (passwordEncoder.matches(password, account.getPassword())) {
             account.setLastLogin(new Date());
@@ -54,17 +55,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .isActive(true)
                     .build();
             accessTokenRepository.save(accessToken);
-            return token;
+            return ResponseEntity.ok(token);
         }
-        return "Login failed";
+        return ResponseEntity.ok("User logged in successfully");
     }
 
 
     @Override
-    public String signup(String etin, String password) {
+    public ResponseEntity<String> signup(String etin, String password) {
 
         if (accountRepository.findByEtin(etin).isPresent()) {
-            return "User already exists";
+            return ResponseEntity.badRequest().body("User already exists");
         }
         Account user = Account.builder()
                 .etin(etin)
@@ -74,18 +75,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // Hash the user's password before storing it in the database
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
         accountRepository.save(user);
-        return this.login(etin, password);
+        return ResponseEntity.ok(this.login(etin, password).getBody());
     }
 
-    public String logout(String etin, String accessToken) {
+    public ResponseEntity<String> logout(String etin, String accessToken) {
         Optional<Account> optionalAccount = accountRepository.findByEtin(etin);
         if (optionalAccount.isEmpty()) {
-            return "User not found";
+            return ResponseEntity.badRequest().body("User not found");
         }
         Account account = optionalAccount.get();
         account.setActive(false);
         account.setAccessToken(null);
         accountRepository.save(account);
-        return "User logged out successfully";
+        return ResponseEntity.ok("User logged out successfully");
     }
 }

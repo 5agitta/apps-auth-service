@@ -10,10 +10,10 @@ public interface AuthenticationService {
 	
 
 
-	String signup(String etin, String password);
+	ResponseEntity<String> signup(String etin, String password);
 
-	String login(String etin, String password);
+	ResponseEntity<String> login(String etin, String password);
 
 
-	String logout(String etin, String accessToken);
+	ResponseEntity<String> logout(String etin, String accessToken);
 }

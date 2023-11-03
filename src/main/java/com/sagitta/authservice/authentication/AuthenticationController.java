@@ -35,17 +35,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public String signup(@RequestBody AccountSignupRequestDto accountSignupRequestDto) {
+    public ResponseEntity<String> signup(@RequestBody AccountSignupRequestDto accountSignupRequestDto) {
         return authenticationService.signup(accountSignupRequestDto.getEtin(), accountSignupRequestDto.getPassword());
     }
 
     @PostMapping("/login")
-    public String signup(@RequestBody AccountLoginRequestDto accountLoginRequestDto) {
+    public ResponseEntity<String> signup(@RequestBody AccountLoginRequestDto accountLoginRequestDto) {
         return authenticationService.login(accountLoginRequestDto.getEtin(), accountLoginRequestDto.getPassword());
     }
 
     @PostMapping("/logout")
-    public String logout(@RequestBody AccountLogoutRequestDto accountLogoutRequestDto) {
+    public ResponseEntity<String> logout(@RequestBody AccountLogoutRequestDto accountLogoutRequestDto) {
         return authenticationService.logout(accountLogoutRequestDto.getEtin(), accountLogoutRequestDto.getAccessToken());
     }
 
