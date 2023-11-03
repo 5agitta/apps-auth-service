@@ -16,6 +16,9 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/migrations/changelog-master.xml
+  data:
+    redis:
+      timeout: 600ms
 
 springdoc:
   show-actuator: true
@@ -41,9 +44,6 @@ management:
       enabled: true
     readinessstate:
       enabled: true
-  zipkin:
-    tracing:
-      endpoint: http://localhost:9411/api/v2/spans
   tracing:
     sampling:
       probability: 1
