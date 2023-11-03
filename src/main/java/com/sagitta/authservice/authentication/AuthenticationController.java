@@ -1,6 +1,7 @@
 package com.sagitta.authservice.authentication;
 
 import com.sagitta.authservice.authentication.domain.dto.AccountLoginRequestDto;
+import com.sagitta.authservice.authentication.domain.dto.AccountLogoutRequestDto;
 import com.sagitta.authservice.authentication.domain.dto.AccountSignupRequestDto;
 import com.sagitta.authservice.authentication.domain.dto.UserPrincipalDto;
 import com.sagitta.authservice.authentication.service.external.UserManagementService;
@@ -44,6 +45,11 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String signup(AccountLoginRequestDto accountLoginRequestDto) {
         return authenticationService.login(accountLoginRequestDto.getEtin(), accountLoginRequestDto.getPassword());
+    }
+
+    @PostMapping("/logout")
+    public String logout(AccountLogoutRequestDto accountLogoutRequestDto) {
+        return authenticationService.logout(accountLogoutRequestDto.getEtin(), accountLogoutRequestDto.getAccessToken());
     }
 
 

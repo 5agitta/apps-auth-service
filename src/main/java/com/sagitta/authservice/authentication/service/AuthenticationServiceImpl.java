@@ -71,4 +71,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         accountRepository.save(user);
         return "User created successfully";
     }
+
+    public String logout(String etin, String accessToken) {
+        Optional<Account> optionalAccount = accountRepository.findByEtin(etin);
+        if (optionalAccount.isEmpty()) {
+            return "User not found";
+        }
+        Account account = optionalAccount.get();
+        account.setActive(false);
+        account.setAccessToken(null);
+        accountRepository.save(account);
+        return "User logged out successfully";
+    }
 }
