@@ -45,7 +45,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    public String logout(AccountLogoutRequestDto accountLogoutRequestDto) {
+    public String logout(@RequestBody AccountLogoutRequestDto accountLogoutRequestDto) {
         return authenticationService.logout(accountLogoutRequestDto.getEtin(), accountLogoutRequestDto.getAccessToken());
     }
 
