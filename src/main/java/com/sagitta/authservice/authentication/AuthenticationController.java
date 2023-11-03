@@ -12,10 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -38,17 +35,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public String signup(AccountSignupRequestDto accountSignupRequestDto) {
+    public String signup(@RequestBody AccountSignupRequestDto accountSignupRequestDto) {
         return authenticationService.signup(accountSignupRequestDto.getEtin(), accountSignupRequestDto.getPassword());
     }
 
     @PostMapping("/login")
-    public String signup(AccountLoginRequestDto accountLoginRequestDto) {
+    public String signup(@RequestBody AccountLoginRequestDto accountLoginRequestDto) {
         return authenticationService.login(accountLoginRequestDto.getEtin(), accountLoginRequestDto.getPassword());
     }
 
     @PostMapping("/logout")
-    public String logout(AccountLogoutRequestDto accountLogoutRequestDto) {
+    public String logout(@RequestBody AccountLogoutRequestDto accountLogoutRequestDto) {
         return authenticationService.logout(accountLogoutRequestDto.getEtin(), accountLogoutRequestDto.getAccessToken());
     }
 
