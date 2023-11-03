@@ -1,0 +1,16 @@
+config:
+  SERVER_PORT: "8083"
+  SPRING_PROFILES_ACTIVE: "prod"
+  ZIPKIN_URL: "http://tempo-grafana-tempo-distributor.tempo.svc.cluster.local:9411"
+  LOKI_DISTRIBUTOR_URL: "http://loki-grafana-loki-distributor.loki.svc.cluster.local:3100/loki/api/v1/push"
+
+replicaCount: 1
+
+image:
+  name: auth-service
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  targetPort: 8083
+  nodePort: 30883

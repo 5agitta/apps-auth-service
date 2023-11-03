@@ -1,0 +1,20 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+management:
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL}
+
+logging:
+  config: classpath:log/logback-prod.xml
+
+loki:
+  distributor:
+    url: ${LOKI_DISTRIBUTOR_URL}
